@@ -13,8 +13,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
 
-    # verhindert Endlosschleifen durch Bot-Commits
-    if: github.actor != 'github-actions[bot]'
+
 
     steps:
       - name: Checkout
