@@ -22,10 +22,41 @@
           "minimum": "5.2.4"
         }
       }
+    ],
+    "requires": [
+      { "id": "dae", "type": "module" },
+      { "id": "lib-wrapper", "type": "module" },
+      { "id": "socketlib", "type": "module" }
     ]
   },
   "esmodules": [
     "scripts/init.js"
+  ],
+  "packs": [
+    {
+      "name": "wildshape-toolkit-macros",
+      "label": "Wildshape Toolkit - Macros",
+      "path": "packs/wildshape-toolkit-macros",
+      "type": "Macro",
+      "ownership": { "PLAYER": "NONE", "ASSISTANT": "OBSERVER", "TRUSTED": "OBSERVER", "GM": "OWNER" }
+    },
+    {
+      "name": "wildshape-toolkit-items",
+      "label": "Wildshape Toolkit - Items",
+      "path": "packs/wildshape-toolkit-items",
+      "type": "Item",
+      "ownership": { "PLAYER": "NONE", "ASSISTANT": "OBSERVER", "TRUSTED": "OBSERVER", "GM": "OWNER" }
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "wildshape-toolkit",
+      "label": "Wildshape Toolkit",
+      "packs": [
+        "wildshape-toolkit-macros",
+        "wildshape-toolkit-items"
+      ]
+    }
   ],
   "url": "https://github.com/AgentGGNik007/Wildshape-Toolkit",
   "manifest": "https://raw.githubusercontent.com/AgentGGNik007/Wildshape-Toolkit/main/module.json",
