@@ -1,0 +1,46 @@
+name: Sync module.json version from data/version.txt
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/version.txt"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    # verhindert Endlosschleifen durch Bot-Commits
+    if: github.actor != 'github-actions[bot]'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update module.json version
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -f data/version.txt
+          test -f module.json
+
+          RAW="$(cat data/version.txt | tr -d '\r\n')"
+          VER="${RAW#v}"   # v entfernen
+
+          node -e "const fs=require('fs'); const p='module.json'; const j=JSON.parse(fs.readFileSync(p,'utf8')); j.version='${VER}'; fs.writeFileSync(p, JSON.stringify(j,null,2)+'\n');"
+
+      - name: Commit & push
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add module.json
+          git commit -m "chore: sync module.json version from data/version.txt" || exit 0
+          git push origin main
