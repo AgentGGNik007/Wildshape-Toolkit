@@ -1,7 +1,7 @@
 ![Foundry VTT](https://img.shields.io/badge/Foundry%20VTT-13%20Stable-brightgreen)
 ![D&D 5e](https://img.shields.io/badge/D%26D%205e-5.2.4-blue)
 ![Compatibility](https://img.shields.io/badge/Compatibility-Foundry%2013-success)
-![License](https://img.shields.io/github/license/DEINNAME/REPO)
+![License](https://img.shields.io/github/license/AgentGGNik007/Wildshape-Toolkit)
 
 
 
