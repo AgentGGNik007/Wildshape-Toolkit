@@ -35,26 +35,26 @@
   "packs": [
     {
       "name": "wildshape-toolkit-macros",
-      "label": "Wildshape Toolkit - Macros",
+      "label": "Macros",
       "path": "packs/wildshape-toolkit-macros",
       "type": "Macro",
       "ownership": { "PLAYER": "NONE", "ASSISTANT": "OBSERVER", "TRUSTED": "OBSERVER", "GAMEMASTER": "OWNER" }
     },
     {
-      "name": "wildshape-toolkit-items",
-      "label": "Wildshape Toolkit - Items",
-      "path": "packs/wildshape-toolkit-items",
+      "name": "wildshape-toolkit-beasts",
+      "label": "Beasts",
+      "path": "packs/wildshape-toolkit-beasts",
       "type": "Item",
       "ownership": { "PLAYER": "NONE", "ASSISTANT": "OBSERVER", "TRUSTED": "OBSERVER", "GAMEMASTER": "OWNER" }
     }
   ],
   "packFolders": [
     {
-      "name": "wildshape-toolkit",
-      "label": "Wildshape Toolkit",
+      "name": "Wildshape Toolkit",
+      "label": "wildshape-toolkit",
       "packs": [
         "wildshape-toolkit-macros",
-        "wildshape-toolkit-items"
+        "wildshape-toolkit-beasts"
       ]
     }
   ],
