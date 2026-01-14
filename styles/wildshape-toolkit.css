@@ -1,0 +1,9 @@
+/* Wildshape Toolkit – Compendium Folder Color */
+.compendium-sidebar .folder[data-folder-name="Wildshape Toolkit"] > .folder-header {
+  background: linear-gradient(180deg, #3a3f45, #2e3237);
+  border-left: 4px solid #6b7a88;
+}
+
+.compendium-sidebar .folder[data-folder-name="Wildshape Toolkit"] .folder-header h3 {
+  color: #e6e8eb;
+}
