@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |
           TAG="latest"
-          FILE="releases/zip/wildshape-toolkit-dnd5e-v0.0.4.zip"
+          FILE="releases/zip/wildshape-toolkit-dnd5e-latest.zip"
 
           test -f "$FILE"
 
