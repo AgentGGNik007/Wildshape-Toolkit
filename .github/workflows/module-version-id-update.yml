@@ -1,10 +1,9 @@
 name: Sync module.json version from data/version.txt
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "data/version.txt"
+  workflow_run:
+    workflows: ["Update version.txt from Release tag"]
+    types: [completed]
 
 permissions:
   contents: write
@@ -12,25 +11,24 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
-
-
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
-      - name: Checkout
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
 
       - name: Update module.json version
         shell: bash
         run: |
           set -euo pipefail
-
           test -f data/version.txt
           test -f module.json
 
-          RAW="$(cat data/version.txt | tr -d '\r\n')"
-          VER="${RAW#v}"   # v entfernen
+          RAW="$(tr -d '\r\n' < data/version.txt)"
+          VER="${RAW#v}"
 
           node -e "const fs=require('fs'); const p='module.json'; const j=JSON.parse(fs.readFileSync(p,'utf8')); j.version='${VER}'; fs.writeFileSync(p, JSON.stringify(j,null,2)+'\n');"
 
