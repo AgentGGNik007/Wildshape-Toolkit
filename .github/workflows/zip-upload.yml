@@ -1,10 +1,9 @@
 name: Upload ZIP to latest release
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "releases/zip/wildshape-toolkit-dnd5e-v0.0.4.zip"
+  workflow_run:
+    workflows: ["Build ZIP (auto)"]
+    types: [completed]
 
 permissions:
   contents: write
@@ -12,9 +11,13 @@ permissions:
 jobs:
   upload:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout main
+        uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
 
       - name: Upload ZIP as latest asset (overwrite)
