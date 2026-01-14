@@ -1,4 +1,4 @@
-name: Build & Release (Foundry Module)
+name: "Build & Release (Foundry Module)"
 
 on:
   workflow_dispatch:
