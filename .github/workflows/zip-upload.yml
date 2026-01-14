@@ -1,0 +1,29 @@
+name: Upload ZIP to latest release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "releases/zip/wildshape-toolkit-dnd5e-v0.0.4.zip"
+
+permissions:
+  contents: write
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Upload ZIP as latest asset (overwrite)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          TAG="latest"
+          FILE="releases/zip/wildshape-toolkit-dnd5e-v0.0.4.zip"
+
+          test -f "$FILE"
+
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "$TAG" --notes ""
+          gh release upload "$TAG" "$FILE" --clobber
