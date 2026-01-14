@@ -35,9 +35,9 @@ jobs:
         shell: bash
         run: |
           mkdir -p releases/zip
-          rm -f releases/zip/wildshape-toolkit-dnd5e-v0.0.4.zip
+          rm -f releases/zip/wildshape-toolkit-dnd5e-latest.zip
 
-          zip -r releases/zip/wildshape-toolkit-dnd5e-v0.0.4.zip . \
+          zip -r releases/zip/wildshape-toolkit-dnd5e-latest.zip . \
             -x ".git/*" \
             -x ".github/*" \
             -x "node_modules/*" \
@@ -51,6 +51,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add releases/zip/wildshape-toolkit-dnd5e-v0.0.4.zip
-          git commit -m "Auto-update release ZIP (v0.0.4)" || exit 0
+          git add releases/zip/wildshape-toolkit-dnd5e-latest.zip
+          git commit -m "Auto-update release ZIP (latest)" || exit 0
           git push origin main
