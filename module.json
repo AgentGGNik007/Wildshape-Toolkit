@@ -2,7 +2,7 @@
   "id": "wildshape-toolkit-dnd5e",
   "title": "Wildshape Toolkit (DnD 5e)",
   "description": "A full-featured Wild Shape module for Foundry VTT v13 (D&D 5e v5.2.4). Includes a dedicated UI, system-native transformations, and SRD/homebrew forms with predefined stats, tokens, and effects.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "authors": [
     {
       "name": "Niklas",
@@ -60,6 +60,6 @@
   ],
   "url": "https://github.com/AgentGGNik007/Wildshape-Toolkit",
   "manifest": "https://raw.githubusercontent.com/AgentGGNik007/Wildshape-Toolkit/main/module.json",
-  "download": "https://github.com/AgentGGNik007/Wildshape-Toolkit/releases/download/v0.0.1/wildshape-toolkit-dnd5e-v0.0.1.zip",
+  "download": "https://github.com/AgentGGNik007/Wildshape-Toolkit/releases/download/v0.0.2/wildshape-toolkit-dnd5e-v0.0.2.zip",
   "license": "MIT"
 }
