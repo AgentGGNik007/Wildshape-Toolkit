@@ -8,6 +8,10 @@ on:
       - "data/**"
       - "releases/**"
 
+    workflow_run:
+    workflows: ["Sync module.json version from data/version.txt"]
+    types: [completed]
+
 permissions:
   contents: write
 
