@@ -1,0 +1,60 @@
+name: "Build & Release (Foundry Module)"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node (for reading module.json)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Read version from module.json
+        id: ver
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./module.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Build ZIP (Foundry layout: module.json at root)
+        shell: bash
+        run: |
+          ZIP="wildshape-toolkit-dnd5e.zip"
+          rm -f "$ZIP"
+          zip -r "$ZIP" . \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x "node_modules/*" \
+            -x "*.zip"
+
+      - name: Create or update release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          release_name: ${{ steps.ver.outputs.tag }}
+          body: "Automated release for ${{ steps.ver.outputs.tag }}"
+
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./wildshape-toolkit-dnd5e.zip
+          asset_name: wildshape-toolkit-dnd5e.zip
+          asset_content_type: application/zip
