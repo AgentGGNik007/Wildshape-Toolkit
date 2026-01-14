@@ -2,7 +2,7 @@
   "id": "wildshape-toolkit-dnd5e",
   "title": "Wildshape Toolkit (DnD 5e)",
   "description": "A full-featured Wild Shape module for Foundry VTT v13 (D&D 5e v5.2.4). Includes a dedicated UI, system-native transformations, and SRD/homebrew forms with predefined stats, tokens, and effects.",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "authors": [
     {
       "name": "Niklas",
@@ -24,33 +24,50 @@
       }
     ],
     "requires": [
-      { "id": "dae", "type": "module" },
-      { "id": "lib-wrapper", "type": "module" },
-      { "id": "socketlib", "type": "module" }
+      {
+        "id": "dae",
+        "type": "module"
+      },
+      {
+        "id": "lib-wrapper",
+        "type": "module"
+      },
+      {
+        "id": "socketlib",
+        "type": "module"
+      }
     ]
   },
   "esmodules": [
     "scripts/init.js"
   ],
- 
   "styles": [
-  "styles/wildshape-toolkit.css"
+    "styles/wildshape-toolkit.css"
   ],
-
   "packs": [
     {
       "name": "wildshape-toolkit-macros",
       "label": "Macros",
       "path": "packs/wildshape-toolkit-macros",
       "type": "Macro",
-      "ownership": { "PLAYER": "NONE", "ASSISTANT": "OBSERVER", "TRUSTED": "OBSERVER", "GAMEMASTER": "OWNER" }
+      "ownership": {
+        "PLAYER": "NONE",
+        "ASSISTANT": "OBSERVER",
+        "TRUSTED": "OBSERVER",
+        "GAMEMASTER": "OWNER"
+      }
     },
     {
       "name": "wildshape-toolkit-beasts",
       "label": "Beasts",
       "path": "packs/wildshape-toolkit-beasts",
       "type": "Item",
-      "ownership": { "PLAYER": "NONE", "ASSISTANT": "OBSERVER", "TRUSTED": "OBSERVER", "GAMEMASTER": "OWNER" }
+      "ownership": {
+        "PLAYER": "NONE",
+        "ASSISTANT": "OBSERVER",
+        "TRUSTED": "OBSERVER",
+        "GAMEMASTER": "OWNER"
+      }
     }
   ],
   "packFolders": [
