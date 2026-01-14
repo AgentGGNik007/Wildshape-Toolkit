@@ -20,25 +20,18 @@ jobs:
           VERSION=$(node -p "require('./module.json').version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "tag=v$VERSION" >> $GITHUB_OUTPUT
-          echo "zip_versioned=wildshape-toolkit-dnd5e-v$VERSION.zip" >> $GITHUB_OUTPUT
-          echo "zip_latest=wildshape-toolkit-dnd5e-latest.zip" >> $GITHUB_OUTPUT
+          echo "zip=wildshape-toolkit-dnd5e.zip" >> $GITHUB_OUTPUT
 
-      - name: Build ZIP (correct Foundry layout)
+      - name: Build ZIP (Foundry layout: module.json at root)
         run: |
-          rm -f *.zip
-          ZIPV="${{ steps.ver.outputs.zip_versioned }}"
-          ZIPL="${{ steps.ver.outputs.zip_latest }}"
-
-          # ZIP must contain module.json at root
-          zip -r "$ZIPV" . \
+          rm -f "${{ steps.ver.outputs.zip }}"
+          zip -r "${{ steps.ver.outputs.zip }}" . \
             -x ".git/*" \
             -x ".github/*" \
             -x "node_modules/*" \
             -x "*.zip"
 
-          cp "$ZIPV" "$ZIPL"
-
-      - name: Create Git tag (if missing)
+      - name: Create tag if missing
         run: |
           TAG="${{ steps.ver.outputs.tag }}"
           git fetch --tags
@@ -49,12 +42,19 @@ jobs:
             git push origin "$TAG"
           fi
 
-      - name: Create GitHub Release and upload assets
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.ver.outputs.tag }}
-          name: ${{ steps.ver.outputs.tag }}
-          files: |
-            ${{ steps.ver.outputs.zip_versioned }}
-            ${{ steps.ver.outputs.zip_latest }}
-          generate_release_notes: true
+      - name: Create release if missing, then upload ZIP (replace if exists)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.ver.outputs.tag }}"
+          ZIP="${{ steps.ver.outputs.zip }}"
+
+          # Create release if it does not exist (keeps your prerelease setting if you already created it manually)
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release exists: $TAG"
+          else
+            gh release create "$TAG" --generate-notes
+          fi
+
+          # Upload and REPLACE same-named asset
+          gh release upload "$TAG" "$ZIP" --clobber
