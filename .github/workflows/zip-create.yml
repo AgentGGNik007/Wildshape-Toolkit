@@ -2,8 +2,11 @@ name: Build ZIP (auto)
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+    paths-ignore:
+      - ".github/**"
+      - "data/**"
+      - "releases/**"
 
 permissions:
   contents: write
@@ -29,6 +32,7 @@ jobs:
             -x ".github/*" \
             -x "node_modules/*" \
             -x "releases/*" \
+            -x "data/*" \
             -x "*.zip"
 
       - name: Commit updated ZIP
