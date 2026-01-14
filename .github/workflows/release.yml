@@ -13,16 +13,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Read version from module.json
         id: ver
+        shell: bash
         run: |
           VERSION=$(node -p "require('./module.json').version")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "tag=v$VERSION" >> $GITHUB_OUTPUT
-          echo "zip=wildshape-toolkit-dnd5e.zip" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+          echo "zip=wildshape-toolkit-dnd5e.zip" >> "$GITHUB_OUTPUT"
 
       - name: Build ZIP (Foundry layout: module.json at root)
+        shell: bash
         run: |
           rm -f "${{ steps.ver.outputs.zip }}"
           zip -r "${{ steps.ver.outputs.zip }}" . \
@@ -31,10 +36,17 @@ jobs:
             -x "node_modules/*" \
             -x "*.zip"
 
+      - name: Configure git identity
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Create tag if missing
+        shell: bash
         run: |
           TAG="${{ steps.ver.outputs.tag }}"
-          git fetch --tags
+          git fetch --tags --force
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "Tag exists: $TAG"
           else
@@ -45,6 +57,7 @@ jobs:
       - name: Create release if missing, then upload ZIP (replace if exists)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
           TAG="${{ steps.ver.outputs.tag }}"
           ZIP="${{ steps.ver.outputs.zip }}"
