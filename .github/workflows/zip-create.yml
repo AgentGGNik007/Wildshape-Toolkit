@@ -1,0 +1,42 @@
+name: Build ZIP (auto)
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build-zip:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build ZIP (overwrite)
+        shell: bash
+        run: |
+          mkdir -p releases/zip
+          rm -f releases/zip/wildshape-toolkit-dnd5e-v0.0.4.zip
+
+          zip -r releases/zip/wildshape-toolkit-dnd5e-v0.0.4.zip . \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x "node_modules/*" \
+            -x "releases/*" \
+            -x "*.zip"
+
+      - name: Commit updated ZIP
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add releases/zip/wildshape-toolkit-dnd5e-v0.0.4.zip
+          git commit -m "Auto-update release ZIP (v0.0.4)" || echo "No changes"
+          git push
