@@ -8,21 +8,12 @@ on:
       - "data/**"
       - "releases/**"
 
-  workflow_run:
-    workflows: ["Sync module.json version from data/version.txt"]
-    types: [completed]
-
 permissions:
   contents: write
 
 jobs:
   build-zip:
     runs-on: ubuntu-latest
-    if: >-
-      ${{
-        (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success')
-        && (github.event_name != 'push' || !contains(github.event.head_commit.message, 'Auto-update release ZIP (v0.0.4)'))
-      }}
 
     steps:
       - name: Checkout repository
@@ -34,6 +25,7 @@ jobs:
       - name: Build ZIP (overwrite)
         shell: bash
         run: |
+          set -euo pipefail
           mkdir -p releases/zip
           rm -f releases/zip/wildshape-toolkit-dnd5e-latest.zip
 
@@ -42,15 +34,15 @@ jobs:
             -x ".github/*" \
             -x "node_modules/*" \
             -x "releases/*" \
-            -x "data/*" \
             -x "*.zip"
 
       - name: Commit updated ZIP
         shell: bash
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git add releases/zip/wildshape-toolkit-dnd5e-latest.zip
-          git commit -m "Auto-update release ZIP (latest)" || exit 0
+          git commit -m "chore: update release ZIP (latest)" || exit 0
           git push origin main
