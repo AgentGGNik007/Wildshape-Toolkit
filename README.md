@@ -5,7 +5,7 @@
 ![D&D 5e](https://img.shields.io/badge/D%26D%205e-5.2.4-blue)
 ![Compatibility](https://img.shields.io/badge/Compatibility-Foundry%2013-success)
 ![License](https://img.shields.io/github/license/AgentGGNik007/Wildshape-Toolkit)
-![Version](https://img.shields.io/badge/dynamic/text?label=version&query=%24&cacheSeconds=0&url=https%3A%2F%2Fraw.githubusercontent.com%2FAgentGGNik007%2Fwildshape-toolkit-dnd5e%2FHEAD%2Fdata%2Fversion.txt)
+![Latest Release](https://img.shields.io/github/v/release/AgentGGNik007/wildshape-toolkit-dnd5e?label=version)
 
 
 
