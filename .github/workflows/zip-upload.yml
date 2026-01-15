@@ -20,15 +20,21 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Upload ZIP as latest asset (overwrite)
+      - name: Upload ZIP to release from data/version.txt (tag already includes v)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
-          TAG="latest"
+          set -euo pipefail
+
+          TAG="$(tr -d ' \r\n' < data/version.txt)"
           FILE="releases/zip/wildshape-toolkit-dnd5e-latest.zip"
 
           test -f "$FILE"
 
-          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "$TAG" --notes ""
+          # Ensure release for this tag exists
+          gh release view "$TAG" >/dev/null 2>&1 || \
+            gh release create "$TAG" --title "$TAG" --notes ""
+
+          # Upload/overwrite asset into that release
           gh release upload "$TAG" "$FILE" --clobber
