@@ -10,6 +10,7 @@ permissions:
 jobs:
   update-version-file:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout main
         uses: actions/checkout@v4
@@ -20,12 +21,14 @@ jobs:
       - name: Write data/version.txt
         shell: bash
         run: |
+          set -euo pipefail
           mkdir -p data
           echo "${{ github.event.release.tag_name }}" > data/version.txt
 
       - name: Commit & push
         shell: bash
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
