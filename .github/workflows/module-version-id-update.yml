@@ -27,14 +27,15 @@ jobs:
           test -f data/version.txt
           test -f module.json
 
-          RAW="$(tr -d '\r\n' < data/version.txt)"
-          VER="${RAW#v}"
+          RAW="$(tr -d '\r\n' < data/version.txt)"   # e.g. v0.0.9
+          VER="${RAW#v}"                              # -> 0.0.9
 
           node -e "const fs=require('fs'); const p='module.json'; const j=JSON.parse(fs.readFileSync(p,'utf8')); j.version='${VER}'; fs.writeFileSync(p, JSON.stringify(j,null,2)+'\n');"
 
       - name: Commit & push
         shell: bash
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
