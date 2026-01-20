@@ -6,6 +6,8 @@
 ![Compatibility](https://img.shields.io/badge/Compatibility-Foundry%2013%20%2B-success)
 ![License](https://img.shields.io/github/license/AgentGGNik007/Wildshape-Toolkit)
 [![Latest Release](https://img.shields.io/github/v/release/AgentGGNik007/Wildshape-Toolkit?label=release)](https://github.com/AgentGGNik007/Wildshape-Toolkit/releases/latest)
+![Status](https://img.shields.io/badge/Status-Work%20in%20Progress-orange)
+
 
 
 
