@@ -64,8 +64,8 @@ jobs:
 
       - name: Build ZIP (stable asset name)
         run: |
-          rm -f wildshape-toolkit-dnd5e-latest.zip
-          zip -r wildshape-toolkit-dnd5e-latest.zip . \
+          rm -f module-latest.zip
+          zip -r module-latest.zip . \
             -x ".git/*" \
             -x ".github/*" \
             -x "releases/*" \
@@ -79,4 +79,4 @@ jobs:
           name: ${{ steps.bump.outputs.tag }}
           generate_release_notes: true
           files: |
-            wildshape-toolkit-dnd5e-latest.zip
+            module-latest.zip
