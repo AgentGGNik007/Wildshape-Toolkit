@@ -32,8 +32,16 @@ jobs:
             -x "node_modules/*" \
             -x "*.zip"
 
-      - name: Upload/Replace asset on the latest release
+      - name: Get tag of latest GitHub Release
+        id: latest
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release upload latest wildshape-toolkit-dnd5e-latest.zip --clobber
+          TAG=$(gh api repos/${{ github.repository }}/releases/latest --jq .tag_name)
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Upload/Replace asset on latest Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ steps.latest.outputs.tag }}" wildshape-toolkit-dnd5e-latest.zip --clobber
