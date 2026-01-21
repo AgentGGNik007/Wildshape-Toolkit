@@ -1,0 +1,39 @@
+name: Dev ZIP -> overwrite latest asset (update)
+
+on:
+  push:
+    branches: [update]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dev-update-zip
+  cancel-in-progress: true
+
+jobs:
+  dev-zip:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout update
+        uses: actions/checkout@v4
+        with:
+          ref: update
+          fetch-depth: 1
+
+      - name: Build ZIP (same stable asset name)
+        run: |
+          rm -f wildshape-toolkit-dnd5e-latest.zip
+          zip -r wildshape-toolkit-dnd5e-latest.zip . \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x "releases/*" \
+            -x "node_modules/*" \
+            -x "*.zip"
+
+      - name: Upload/Replace asset on the latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload latest wildshape-toolkit-dnd5e-latest.zip --clobber
